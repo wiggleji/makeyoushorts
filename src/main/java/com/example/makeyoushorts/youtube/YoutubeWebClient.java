@@ -57,16 +57,4 @@ public class YoutubeWebClient {
 
         return null;
     }
-
-
-    @Deprecated
-    public void testRequest() {
-        String block = webClient.mutate()
-                .build()
-                .get()
-                .uri("/watch?v=Gr-BGf7rzrY")
-                .retrieve()
-                .bodyToMono(String.class).block();
-        System.out.println(block);
-    }
 }
