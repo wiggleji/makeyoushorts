@@ -24,6 +24,7 @@ dependencies {
     implementation 'org.projectlombok:lombok:1.18.24'
 
     implementation group: 'io.github.bonigarcia', name: 'webdrivermanager', version: '5.5.2'
+    testImplementation 'junit:junit:4.13.1'
 
     runtimeOnly 'com.h2database:h2'
 

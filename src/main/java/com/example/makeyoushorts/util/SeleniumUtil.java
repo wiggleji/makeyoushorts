@@ -27,7 +27,6 @@ public class SeleniumUtil {
         options.addArguments("--disable-dev-shm-usage"); // disable limited resource
         options.addArguments("--disable-gpu"); // disable gpu options for browser to render
 
-
         return new ChromeDriver(options);
     }
 

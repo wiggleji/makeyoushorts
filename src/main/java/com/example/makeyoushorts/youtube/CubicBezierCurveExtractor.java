@@ -18,6 +18,7 @@ public class CubicBezierCurveExtractor {
     }
 
     public ArrayList<Float> getBezierStartPoint(String html) {
+        // M 0.0, 100.0 C x1,y1 x2,y2 x,y C ...
         String[] bezierElements = html.split("C");
         return new ArrayList<>(convertStringArrayToFloatArray(bezierElements[0].replace("M ", "").split(",")));
     }
