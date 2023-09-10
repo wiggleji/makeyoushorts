@@ -1,4 +1,4 @@
-package com.example.makeyoushorts.youtube;
+package com.example.makeyoushorts.youtube.service;
 
 import com.example.makeyoushorts.youtube.dto.YoutubeBezierCurveDto;
 import com.example.makeyoushorts.youtube.exception.HeatMapNotFoundException;

@@ -1,4 +1,4 @@
-package com.example.makeyoushorts.youtube;
+package com.example.makeyoushorts.youtube.service;
 
 import com.example.makeyoushorts.youtube.dto.YoutubeTopFiveHighlightsDto;
 import com.example.makeyoushorts.youtube.service.YoutubeHeatmapService;
@@ -30,6 +30,6 @@ class YoutubeHighlightServiceTest {
         YoutubeTopFiveHighlightsDto result = youtubeHighlightService.retrieveTopFiveHighlightYoutubeVideo(heatmapVideoId);
 
         // then
-        Assertions.assertThat(result.topFiveHighlightsSecond.size()).isEqualTo(5);
+        Assertions.assertThat(result.topHighlights.size()).isEqualTo(5);
     }
 }

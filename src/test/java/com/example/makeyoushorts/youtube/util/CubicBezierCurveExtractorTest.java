@@ -1,4 +1,4 @@
-package com.example.makeyoushorts.youtube;
+package com.example.makeyoushorts.youtube.util;
 
 import com.example.makeyoushorts.youtube.util.CubicBezierCurveExtractor;
 import org.assertj.core.api.Assertions;

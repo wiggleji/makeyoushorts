@@ -8,5 +8,5 @@ import java.util.ArrayList;
 @Data
 @Builder
 public class YoutubeTopFiveHighlightsDto {
-    public ArrayList<ArrayList<Integer>> topFiveHighlightsSecond;
+    public ArrayList<ArrayList<Integer>> topHighlights;
 }

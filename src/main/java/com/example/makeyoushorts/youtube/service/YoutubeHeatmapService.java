@@ -15,11 +15,11 @@ import java.util.ArrayList;
 public class YoutubeHeatmapService {
 
     private final YoutubeWebClient youtubeWebClient;
-    private final CubicBezierCurveExtractor cubicBezierCurveExtractor;
+    private final CubicBezierCurveExtractor bezierCurveExtractor;
 
     public YoutubeHeatmapService(YoutubeWebClient youtubeWebClient, CubicBezierCurveExtractor cubicBezierCurveExtractor) {
         this.youtubeWebClient = youtubeWebClient;
-        this.cubicBezierCurveExtractor = cubicBezierCurveExtractor;
+        this.bezierCurveExtractor = cubicBezierCurveExtractor;
     }
 
     public YoutubeBezierCurveDto getYoutubeBezierCurveDtoFromYoutubeVideo(String videoId) {
@@ -29,9 +29,9 @@ public class YoutubeHeatmapService {
             // throws HeatMapNotFoundException if no heatmap is found
             throw new HeatMapNotFoundException(String.format("Failed to get heatmap from Youtube| ID: %s", videoId));
 
-        ArrayList<Float> startPoint = cubicBezierCurveExtractor
+        ArrayList<Float> startPoint = bezierCurveExtractor
                 .getBezierStartPoint(videoInfoDto.getYtpHeatMapPathD());
-        ArrayList<ArrayList<ArrayList<Float>>> bezierCurvePoints = cubicBezierCurveExtractor
+        ArrayList<ArrayList<ArrayList<Float>>> bezierCurvePoints = bezierCurveExtractor
                 .getBezierCurvePoints(videoInfoDto.getYtpHeatMapPathD());
 
         return YoutubeBezierCurveDto.builder()

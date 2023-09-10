@@ -1,7 +1,6 @@
-package com.example.makeyoushorts.youtube;
+package com.example.makeyoushorts.youtube.util;
 
 import com.example.makeyoushorts.youtube.dto.YoutubeVideoInfoDto;
-import com.example.makeyoushorts.youtube.util.YoutubeWebClient;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +16,7 @@ class YoutubeWebClientTest {
     }
 
     @Test
-    public void returnsHeatMapHTML() {
+    public void returnsYoutubeVideoInfoDto() {
         // given
         String videoId = "Gr-BGf7rzrY";
 

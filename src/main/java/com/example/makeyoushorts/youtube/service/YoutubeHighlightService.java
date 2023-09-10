@@ -13,18 +13,18 @@ import java.util.List;
 @Service
 public class YoutubeHighlightService {
 
-    private final YoutubeHeatmapService youtubeHeatmapService;
+    private final YoutubeHeatmapService heatmapService;
 
     public YoutubeHighlightService(YoutubeHeatmapService youtubeHeatmapService) {
-        this.youtubeHeatmapService = youtubeHeatmapService;
+        this.heatmapService = youtubeHeatmapService;
     }
 
     public YoutubeTopFiveHighlightsDto retrieveTopFiveHighlightYoutubeVideo(String videoId) {
-        YoutubeBezierCurveDto curveDto = youtubeHeatmapService.getYoutubeBezierCurveDtoFromYoutubeVideo(videoId);
+        YoutubeBezierCurveDto curveDto = heatmapService.getYoutubeBezierCurveDtoFromYoutubeVideo(videoId);
         List<ArrayList<ArrayList<Float>>> topFiveBezier = getTopFiveHighlightBezierCubic(curveDto);
 
         return YoutubeTopFiveHighlightsDto.builder()
-                .topFiveHighlightsSecond(getTopFiveHighlightSeconds(topFiveBezier, curveDto.getVideoLength()))
+                .topHighlights(getTopFiveHighlightSeconds(topFiveBezier, curveDto.getVideoLength()))
                 .build();
     }
 
@@ -39,10 +39,24 @@ public class YoutubeHighlightService {
 
         highlightsBezier.forEach(bezierCurve -> {
             Float topPointSecondPercentage = bezierCurve.get(0).get(0);
+
             // startPointPercentage: topPoint - 10
             Integer startPointSeconds = (int) (videoLength * ((topPointSecondPercentage - 10) / 1000));
             // endPointPercentage: topPoint + 10
             Integer endPointSeconds = (int) (videoLength * ((topPointSecondPercentage + 10) / 1000));
+
+            if (topPointSecondPercentage < 10) {
+                // if topPointSecondPercentage less than 10,
+                // set startPointSeconds as 00:00
+                result.add(new ArrayList<>(Arrays.asList(0, endPointSeconds)));
+                return;
+            }
+            if (topPointSecondPercentage > 990) {
+                // if topPointSecondPercentage larger than 990
+                // set endPointSeconds as end of video
+                result.add(new ArrayList<>(Arrays.asList(startPointSeconds, 1000)));
+                return;
+            }
 
             result.add(new ArrayList<>(Arrays.asList(startPointSeconds, endPointSeconds)));
         });
