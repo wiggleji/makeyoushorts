@@ -1,4 +1,4 @@
-package com.example.makeyoushorts.youtube;
+package com.example.makeyoushorts.youtube.util;
 
 import org.springframework.stereotype.Component;
 

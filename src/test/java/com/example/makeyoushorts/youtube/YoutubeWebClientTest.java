@@ -1,11 +1,11 @@
 package com.example.makeyoushorts.youtube;
 
+import com.example.makeyoushorts.youtube.dto.YoutubeVideoInfoDto;
+import com.example.makeyoushorts.youtube.util.YoutubeWebClient;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class YoutubeWebClientTest {
@@ -22,14 +22,14 @@ class YoutubeWebClientTest {
         String videoId = "Gr-BGf7rzrY";
 
         // when
-        String heatMapHtml = youtubeWebClient.fetchYtpHeatMapHtmlByVideoId(videoId);
+        YoutubeVideoInfoDto videoInfoDto = youtubeWebClient.fetchYtpHeatMapHtmlByVideoId(videoId);
 
         // then
-        System.out.println(heatMapHtml);
 
         // heatmap SVG tag always starts with `M 0.0,100,0` & ends with `1000.0,100.0`
-        Assertions.assertThat(heatMapHtml.startsWith("M 0.0,100.0")).isTrue();
-        Assertions.assertThat(heatMapHtml.endsWith("1000.0,100.0")).isTrue();
+        Assertions.assertThat(videoInfoDto.getVideoLength() > 0).isTrue();
+        Assertions.assertThat(videoInfoDto.getYtpHeatMapPathD().startsWith("M 0.0,100.0")).isTrue();
+        Assertions.assertThat(videoInfoDto.getYtpHeatMapPathD().endsWith("1000.0,100.0")).isTrue();
     }
 
     @Test
@@ -39,9 +39,9 @@ class YoutubeWebClientTest {
         String videoId = "8pU8DQ1unGo";
 
         // when
-        String heatMapHtml = youtubeWebClient.fetchYtpHeatMapHtmlByVideoId(videoId);
+        YoutubeVideoInfoDto videoInfoDto = youtubeWebClient.fetchYtpHeatMapHtmlByVideoId(videoId);
 
         // then
-        Assertions.assertThat(heatMapHtml).isNull();
+        Assertions.assertThat(videoInfoDto).isNull();
     }
 }

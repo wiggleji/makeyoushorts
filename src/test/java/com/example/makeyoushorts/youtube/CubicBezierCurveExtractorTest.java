@@ -1,5 +1,6 @@
 package com.example.makeyoushorts.youtube;
 
+import com.example.makeyoushorts.youtube.util.CubicBezierCurveExtractor;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
