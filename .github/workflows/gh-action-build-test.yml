@@ -17,6 +17,12 @@ on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
+permissions:
+  contents: read
+  issues: read
+  checks: write
+  pull-requests: write
+
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
@@ -60,3 +66,12 @@ jobs:
         env:
           TIME: "${{ steps.current-time.outputs.time }}"
         run: echo $TIME
+
+      - name: Publish Test Results on Pull Request
+        uses: EnricoMi/publish-unit-test-result-action@v2
+        if: always()
+        with:
+          files: |
+            build/test-results/**/*.xml
+            build/test-results/**/*.trx
+            build/test-results/**/*.json
