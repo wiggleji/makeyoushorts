@@ -9,5 +9,4 @@ class MakeYouShortsApplicationTests {
     @Test
     void contextLoads() {
     }
-
 }
