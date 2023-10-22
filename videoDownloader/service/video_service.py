@@ -34,11 +34,25 @@ class VideoService:
             # throw exception for bad request
             return False
 
-    def is_video_download_succeed(self, video_info_json):
+    def is_video_download_succeed(self, video_info_json: dict):
         """비디오 다운로드 성공 여부
+        비디오 파일 여부 확인
 
         :param dict video_info_json: YoutubeDL 로 조회한 비디오 정보 dict
         :return bool: 비디오 다운로드 성공 여부
         """
         video_filename = self.video_downloader.default_video_filename(video_info_json)
         return self.file_manager.video_file_exists(video_filename)
+
+    def download_video_file_w_full_path(self, video_url: str):
+        """
+
+        :param video_url:
+        :return (str, str): 비디오 파일 fullpath, 비디오 파일명
+        """
+        video_info_json = self.video_downloader.get_video_info_from_youtube(video_url)
+        video_filename = self.video_downloader.default_video_filename(video_info_json)
+        return (
+            self.file_manager.video_file_full_path(video_filename),
+            f"{video_filename}.mp4",
+        )
