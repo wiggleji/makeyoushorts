@@ -3,7 +3,7 @@ import pytest
 from unittest import TestCase
 
 from test import test_fixture
-from video_downloader import VideoDownloader
+from service.video_downloader import VideoDownloader
 
 
 class FileManagerTest(TestCase):
@@ -41,7 +41,7 @@ class FileManagerTest(TestCase):
 
         # when
         default_video_filename = self.video_downloader.default_video_filename(
-            test_fixture.FIXTURE_VIDEO_INFO_JSON
+            test_fixture.FIXTURE_MP4_VIDEO_INFO_JSON
         )
 
         # then

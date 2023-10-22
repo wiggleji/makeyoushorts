@@ -1,6 +1,6 @@
 import yt_dlp
 
-from file_manager import FileManager
+from service.file_manager import FileManager
 from logger import Logger
 
 

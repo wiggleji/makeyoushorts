@@ -7,7 +7,7 @@ from typing_extensions import deprecated
 class FileManager:
     # output: videoDownloader/temp
     DEFAULT_VIDEO_FILE_TEMP_PATH = os.path.join(
-        os.path.dirname(os.path.abspath(__file__)), "temp"
+        os.path.dirname(os.path.abspath(__file__)), "../temp"
     )
 
     def video_file_exists(self, filename):
