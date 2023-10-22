@@ -1,7 +1,7 @@
 import yt_dlp
 
+from service.yt_dlp_logger import YtDlpLogger
 from service.file_manager import FileManager
-from logger import Logger
 
 
 class VideoDownloader:
@@ -50,8 +50,8 @@ class VideoDownloader:
             },
             "verbose": True,
             "format": "best",
-            "logger": Logger(),
-            "progress_hooks": [Logger.hook],
+            "logger": YtDlpLogger(),
+            "progress_hooks": [YtDlpLogger.info],
         }
 
         # options {"start", "end"} 설정
