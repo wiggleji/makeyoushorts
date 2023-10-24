@@ -5,7 +5,8 @@ target/
 !**/src/test/**/target/
 
 ## video file
-*.mp4
+**/videoDownloader/temp/*.mp4
+!**/videoDownloader/temp/sample_video [1234].mp4
 
 ### STS ###
 .apt_generated
