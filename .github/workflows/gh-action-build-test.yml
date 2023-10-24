@@ -74,7 +74,7 @@ jobs:
 
       - name: Pytest python application in videoDownloader
         working-directory: videoDownloader
-        run: pytest --junit-xml=videoDownloader/test/result.xml
+        run: pytest --junit-xml=test/result.xml
 
       - name: Current Time
         uses: gerred/current-time@v1.0.0
