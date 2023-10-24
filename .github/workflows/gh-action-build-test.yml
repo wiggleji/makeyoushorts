@@ -89,7 +89,9 @@ jobs:
         uses: EnricoMi/publish-unit-test-result-action@v2
         if: always()
         with:
-          files:
-            makeYouShorts/target/surefire-reports/**/*.xml
-            videoDownloader/test/*.xml
+          files: |
+            *.xml
+            !pom.xml
+#            makeYouShorts/target/surefire-reports/*.xml
+#            videoDownloader/test/*.xml
 
