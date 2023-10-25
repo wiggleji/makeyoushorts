@@ -76,15 +76,6 @@ jobs:
         working-directory: videoDownloader
         run: pytest --junit-xml=test/result.xml
 
-      - name: Current Time
-        uses: gerred/current-time@v1.0.0
-        id: current-time
-
-      - name: get current time
-        env:
-          TIME: "${{ steps.current-time.outputs.time }}"
-        run: echo $TIME
-
       - name: Publish Test Results on Pull Request
         uses: EnricoMi/publish-unit-test-result-action@v2
         if: always()
