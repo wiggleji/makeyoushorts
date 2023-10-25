@@ -42,15 +42,29 @@ jobs:
           java-version: '17'
           distribution: adopt
 
+      - uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+      - name: install ffmpeg for yt-dlp
+        run: sudo apt install update & sudo apt install -y ffmpeg
+      - name: setup pip requirements for Python Application
+        working-directory: videoDownloader
+        run: pip install -r requirements.txt
+
+      - name: print ffmpeg version
+        run: ffmpeg -version
+
       - name: Maven Cache
         uses: skjolber/maven-cache-github-action@v1.1
         with:
           step: restore
 
       - name: extract version for pom.xml
+        working-directory: makeYouShorts
         run: echo "VERSION=$(grep -oPm2 "(?<=<version>)[^<]+" pom.xml | sed -n 2p)" >> $GITHUB_ENV
 
       - name: Spring Boot Build with Maven
+        working-directory: makeYouShorts
         run: mvn compile --batch-mode --update-snapshots verify
 
       - name: Maven Cache
@@ -58,18 +72,15 @@ jobs:
         with:
           step: save
 
-      - name: Current Time
-        uses: gerred/current-time@v1.0.0
-        id: current-time
-
-      - name: get current time
-        env:
-          TIME: "${{ steps.current-time.outputs.time }}"
-        run: echo $TIME
+      - name: Pytest python application in videoDownloader
+        working-directory: videoDownloader
+        run: pytest --junit-xml=test/result.xml
 
       - name: Publish Test Results on Pull Request
         uses: EnricoMi/publish-unit-test-result-action@v2
         if: always()
         with:
-          junit_files: "target/surefire-reports/**/*.xml"
+          junit_files: |
+            makeYouShorts/target/surefire-reports/*.xml
+            videoDownloader/test/*.xml
 
