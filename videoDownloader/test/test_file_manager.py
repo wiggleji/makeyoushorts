@@ -8,7 +8,7 @@ class FileManagerTest(TestCase):
     @pytest.fixture(autouse=True)
     def fixture(self):
         self.filemanager = FileManager()
-        self.sample_video_name = "sample_video [1234]"
+        self.sample_video_name = "sample_video[1234]"
 
     def test_video_file_exists__returns_True__file_exists(self):
         # given

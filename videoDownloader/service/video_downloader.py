@@ -27,13 +27,13 @@ class VideoDownloader:
     @staticmethod
     def default_video_filename(video_info_json):
         """비디오 파일 default 이름
-        default filename: {video_info_json['fulltitle']} [{video_info_json['id']}].mp4
+        default filename: {video_info_json['fulltitle']}[{video_info_json['id']}].mp4
 
         :param dict video_info_json: YoutubeDL 로 조회한 비디오 정보 dict
         :return str: 기본 비디오 파일(.mp4) 이름
         """
         try:
-            return f"{video_info_json['fulltitle']} [{video_info_json['id']}]"
+            return f"{video_info_json['fulltitle']}[{video_info_json['id']}]"
         except KeyError:
             return None
 
@@ -48,6 +48,7 @@ class VideoDownloader:
                 "temp": self.file_manager.DEFAULT_VIDEO_FILE_TEMP_PATH,
                 "home": self.file_manager.DEFAULT_VIDEO_FILE_TEMP_PATH,
             },
+            "outtmpl": "%(title)s[%(id)s].%(ext)s",
             "verbose": True,
             "format": "best",
             "logger": YtDlpLogger(),

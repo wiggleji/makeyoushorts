@@ -37,7 +37,7 @@ class FileManagerTest(TestCase):
 
     def test__default_video_filename__return_filename(self):
         # given
-        assertion_filename = "WOWOW×Vaundy Museum Live on YouTube [Gr-BGf7rzrY]"
+        assertion_filename = "WOWOW×Vaundy Museum Live on YouTube[Gr-BGf7rzrY]"
 
         # when
         default_video_filename = self.video_downloader.default_video_filename(
