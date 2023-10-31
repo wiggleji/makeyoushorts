@@ -1,17 +1,18 @@
-from typing import Optional
+from typing import Optional, Literal
 
 from fastapi import FastAPI, Depends, status, HTTPException
-from fastapi.responses import FileResponse
+from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 
 from service.video_service import VideoService
+from service.s3_manager import S3Manager
 
 app = FastAPI()
 
 
 class VideoRequest(BaseModel):
     """
-    비디오 파일 Request DTO
+    비디오 다운로드 Request DTO
     """
 
     video_url: str
@@ -19,15 +20,27 @@ class VideoRequest(BaseModel):
     end: int
 
 
-@app.get(
+class VideoResponse(BaseModel):
+    """
+    비디오 다운로드 Response DTO
+    """
+
+    file_name: str
+    start: int
+    end: int
+
+
+@app.post(
     "/video/download",
-    summary="Download Youtube service by YouTube video URL",
+    summary="Download Youtube video URL",
     description="get Youtube video file with time range options:{start, end}",
+    response_model=VideoResponse,
     status_code=status.HTTP_202_ACCEPTED,
 )
 def download_video_file(
-    video_request: VideoRequest = Depends(),
+    video_request: VideoRequest,
     video_service: VideoService = Depends(VideoService),
+    s3_manager: S3Manager = Depends(S3Manager),
 ):
     video_url = youtube_url_resolver(video_request.video_url)
     if video_url is None:
@@ -36,13 +49,15 @@ def download_video_file(
         video_url, options={"start": video_request.start, "end": video_request.end}
     )
     if video_download_succeed:
-        video_file_full_path, filename = video_service.download_video_file_w_full_path(
+        video_file_full_path, file_name = video_service.download_video_file_w_full_path(
             video_url
         )
-        return FileResponse(
-            video_file_full_path,
-            media_type="text/mp4",
-            filename=filename,
+        s3_manager.upload_video(video_file_full_path, file_name)
+
+        return VideoResponse(
+            file_name=file_name,
+            start=video_request.start,
+            end=video_request.end,
         )
     else:
         raise HTTPException(
