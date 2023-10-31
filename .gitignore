@@ -4,6 +4,9 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 
+## AWS secret key ##
+**/secret-*.json
+
 ## video file
 **/videoDownloader/temp/*.mp4
 !**/videoDownloader/temp/sample_video [1234].mp4
