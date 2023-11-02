@@ -11,8 +11,8 @@ class VideoServiceTest(TestCase):
     @pytest.fixture(autouse=True)
     def fixture(self):
         self.video_service = VideoService()
-        self.video_url = "https://youtu.be/Gr-BGf7rzrY"
-        self.options = {"start": 10, "end": 20}
+        self.video_url = test_fixture.FIXTURE_VIDEO_URL
+        self.video_options = test_fixture.VIDEO_OPTIONS
 
     @patch("service.video_service.VideoDownloader.get_video_info_from_youtube")
     @patch("service.video_service.VideoDownloader.download_video_from_youtube")
@@ -29,7 +29,7 @@ class VideoServiceTest(TestCase):
 
         # when
         video_download_result = self.video_service.download_video(
-            self.video_url, self.options
+            self.video_url, self.video_options
         )
 
         # then
@@ -45,12 +45,9 @@ class VideoServiceTest(TestCase):
             test_fixture.FIXTURE_NON_MP4_VIDEO_INFO_JSON
         )
 
-        video_url = "https://youtu.be/Gr-BGf7rzrY"
-        options = {"start": 10, "end": 20}
-
         # when
         video_download_result = self.video_service.download_video(
-            self.video_url, self.options
+            self.video_url, self.video_options
         )
 
         # then
@@ -81,7 +78,7 @@ class VideoServiceTest(TestCase):
 
         # when
         download_succeed = self.video_service.is_video_download_succeed(
-            test_fixture.FIXTURE_MP4_VIDEO_INFO_JSON
+            test_fixture.FIXTURE_MP4_VIDEO_INFO_JSON, self.video_options
         )
 
         # then
@@ -93,7 +90,7 @@ class VideoServiceTest(TestCase):
 
         # when
         download_succeed = self.video_service.is_video_download_succeed(
-            invalid_video_info_json
+            invalid_video_info_json, self.video_options
         )
 
         # then

@@ -25,15 +25,16 @@ class VideoDownloader:
             return False
 
     @staticmethod
-    def default_video_filename(video_info_json):
+    def default_video_filename(video_info_json, video_options):
         """비디오 파일 default 이름
-        default filename: {video_info_json['fulltitle']}[{video_info_json['id']}].mp4
+        default filename: {video_info_json['fulltitle']}[{video_info_json['id']}][{options['start']}-{options['end']}].mp4
 
         :param dict video_info_json: YoutubeDL 로 조회한 비디오 정보 dict
+        :param dict video_options: 비디오 다운로드 옵션(start, end)
         :return str: 기본 비디오 파일(.mp4) 이름
         """
         try:
-            return f"{video_info_json['fulltitle']}[{video_info_json['id']}]"
+            return f"{video_info_json['fulltitle']}[{video_info_json['id']}][{video_options['start']}-{video_options['end']}]"
         except KeyError:
             return None
 
@@ -48,22 +49,25 @@ class VideoDownloader:
                 "temp": self.file_manager.DEFAULT_VIDEO_FILE_TEMP_PATH,
                 "home": self.file_manager.DEFAULT_VIDEO_FILE_TEMP_PATH,
             },
-            "outtmpl": "%(title)s[%(id)s].%(ext)s",
+            "outtmpl": "%(title)s[%(id)s].%(ext)s",  # default outtmpl
             "verbose": True,
             "format": "best",
             "logger": YtDlpLogger(),
             "progress_hooks": [YtDlpLogger.info],
         }
 
-        # options {"start", "end"} 설정
         try:
+            # options {"start", "end"} 설정
             start = options["start"]
             end = options["end"]
+
             download_ranges = yt_dlp.utils.download_range_func(None, [(start, end)])
         except (TypeError, KeyError) as e:
             # error handling for options param
             return False
         if download_ranges:
+            # override outtmpl options with [`start`-`end`]
+            self.yt_dlp_options["outtmpl"] = f"%(title)s[%(id)s][{start}-{end}].%(ext)s"
             self.yt_dlp_options["download_ranges"] = download_ranges
 
         return True

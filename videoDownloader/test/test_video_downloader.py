@@ -10,6 +10,8 @@ class FileManagerTest(TestCase):
     @pytest.fixture(autouse=True)
     def fixture(self):
         self.video_downloader = VideoDownloader()
+        self.video_url = test_fixture.FIXTURE_VIDEO_URL
+        self.video_options = test_fixture.VIDEO_OPTIONS
         self.wrong_video_info_json = {"WRONG_VALUE": "false"}
 
     def test__static_supports_mp4_format__return_True(self):
@@ -37,11 +39,11 @@ class FileManagerTest(TestCase):
 
     def test__default_video_filename__return_filename(self):
         # given
-        assertion_filename = "WOWOW×Vaundy Museum Live on YouTube[Gr-BGf7rzrY]"
+        assertion_filename = "WOWOW×Vaundy Museum Live on YouTube[Gr-BGf7rzrY][10-20]"
 
         # when
         default_video_filename = self.video_downloader.default_video_filename(
-            test_fixture.FIXTURE_MP4_VIDEO_INFO_JSON
+            test_fixture.FIXTURE_MP4_VIDEO_INFO_JSON, test_fixture.VIDEO_OPTIONS
         )
 
         # then
@@ -52,7 +54,7 @@ class FileManagerTest(TestCase):
 
         # when
         default_video_filename = self.video_downloader.default_video_filename(
-            self.wrong_video_info_json
+            self.wrong_video_info_json, test_fixture.VIDEO_OPTIONS
         )
 
         # then

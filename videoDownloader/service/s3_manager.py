@@ -32,6 +32,11 @@ class S3Manager:
         )
 
     def get_video_pre_signed_url(self, file_name):
+        """S3 에 저장된 비디오 pre-signed URL 조회
+
+        :param file_name: 비디오 파일명 w.format
+        :return: S3 pre-signed URL
+        """
         s3_pre_signed_url = self.s3_client.generate_presigned_url(
             "get_object",
             Params={
@@ -43,6 +48,12 @@ class S3Manager:
         return s3_pre_signed_url
 
     def upload_video(self, video_file_path, file_name):
+        """
+
+        :param video_file_path: 비디오 파일 full path (temp 폴더)
+        :param file_name: 비디오 파일명 w.format
+        :return:
+        """
         try:
             self.s3_client.upload_file(
                 video_file_path,

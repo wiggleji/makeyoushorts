@@ -46,7 +46,8 @@ def download_video_file(
     if video_url is None:
         return None
     video_download_succeed = video_service.download_video(
-        video_url, options={"start": video_request.start, "end": video_request.end}
+        video_url,
+        video_options={"start": video_request.start, "end": video_request.end},
     )
     if video_download_succeed:
         video_file_full_path, file_name = video_service.download_video_file_w_full_path(

@@ -1,4 +1,5 @@
 FIXTURE_VIDEO_URL = "https://youtu.be/Gr-BGf7rzrY"
+VIDEO_OPTIONS = {"start": 10, "end": 20}
 
 FIXTURE_MP4_VIDEO_INFO_JSON = {
     # YoutubeDL metadata JSON
