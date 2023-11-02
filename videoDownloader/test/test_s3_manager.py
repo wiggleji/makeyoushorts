@@ -16,6 +16,24 @@ class S3ManagerTest(TestCase):
         )
         self.sample_video_name = "sample_video[1234].mp4"
 
+    def test_s3_file_exists_returns(self):
+        # given
+
+        # when
+        exists = self.s3_manager.s3_file_exists(self.sample_video_name)
+
+        # then
+        assert exists is True
+
+    def test_s3_file_exists_returns_False(self):
+        # given
+
+        # when
+        exists = self.s3_manager.s3_file_exists(self.sample_video_name)
+
+        # then
+        assert exists is False
+
     def test_init_check_s3_credentials_by_list_buckets(self):
         # given
 

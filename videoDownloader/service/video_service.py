@@ -1,16 +1,14 @@
 from service.video_downloader import VideoDownloader
 from service.file_manager import FileManager
-from service.s3_manager import S3Manager
 
 
 class VideoService:
     def __init__(self) -> None:
         self.video_downloader = VideoDownloader()
         self.file_manager = FileManager()
-        self.s3_manager = S3Manager()
 
     def download_video(self, video_url: str, video_options: dict):
-        """
+        """비디오 다운로드
 
         :param str video_url: 비디오 URL
         :param dict video_options: YoutubeDL 에 사용될 비디오 옵션
@@ -50,8 +48,7 @@ class VideoService:
         return self.file_manager.video_file_exists(video_filename)
 
     def download_video_file_w_full_path(self, video_url: str, video_options: dict):
-        """
-
+        """비디오 다운로드 정보 반환
         :param str video_url: 비디오 URL
         :param dict video_options: 비디오 다운로드 옵션(start, end)
         :return (str, str): 비디오 파일 fullpath, 비디오 파일명

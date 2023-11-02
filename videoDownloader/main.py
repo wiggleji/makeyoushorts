@@ -30,6 +30,14 @@ class VideoResponse(BaseModel):
     end: int
 
 
+class VideoUrlResponse(BaseModel):
+    """
+    비디오 URL Response DTO
+    """
+
+    video_file_url: str
+
+
 @app.post(
     "/video/download",
     summary="Download Youtube video URL",
@@ -45,13 +53,12 @@ def download_video_file(
     video_url = youtube_url_resolver(video_request.video_url)
     if video_url is None:
         return None
-    video_download_succeed = video_service.download_video(
-        video_url,
-        video_options={"start": video_request.start, "end": video_request.end},
-    )
+    video_options = {"start": video_request.start, "end": video_request.end}
+    video_download_succeed = video_service.download_video(video_url, video_options)
+
     if video_download_succeed:
         video_file_full_path, file_name = video_service.download_video_file_w_full_path(
-            video_url
+            video_url, video_options
         )
         s3_manager.upload_video(video_file_full_path, file_name)
 
@@ -59,6 +66,27 @@ def download_video_file(
             file_name=file_name,
             start=video_request.start,
             end=video_request.end,
+        )
+    else:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="Item not found"
+        )
+
+
+@app.get(
+    "/video/url",
+    summary="get Youtube video file URL",
+    description="get Youtube video file URL from S3",
+    response_model=VideoUrlResponse,
+    status_code=status.HTTP_200_OK,
+)
+def download_video_file(
+    video_filename: str,
+    s3_manager: S3Manager = Depends(S3Manager),
+):
+    if s3_manager.s3_file_exists(video_filename):
+        return VideoUrlResponse(
+            video_file_url=s3_manager.get_video_pre_signed_url(video_filename)
         )
     else:
         raise HTTPException(

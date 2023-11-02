@@ -31,6 +31,23 @@ class S3Manager:
             endpoint_url=self.END_POINT_URL,
         )
 
+    def s3_file_exists(self, file_name):
+        """
+
+        :param file_name: 비디오 파일명 w.format
+        :return bool: S3 내 파일 존재여부
+        """
+        try:
+            s3_head_object = self.s3_client.head_object(
+                Bucket=self.BUCKET_NAME, Key=f"{self.BUCKET_DIRECTORY}/{file_name}"
+            )
+            return True
+        except ClientError as e:
+            if e.response["Error"]["Code"] == "404":
+                return False
+            else:
+                raise e
+
     def get_video_pre_signed_url(self, file_name):
         """S3 에 저장된 비디오 pre-signed URL 조회
 
